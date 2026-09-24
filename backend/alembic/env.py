@@ -13,9 +13,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 # ============================================================
 # Imports de ton application
 # ============================================================
-from app.core.config import settings
-from app.db.base import Base
-from app.models.user import User
+from backend.app.core.config import settings
+from backend.app.db.base import Base
+from backend.app.models.user import User
 
 # ============================================================
 # Configuration Alembic
