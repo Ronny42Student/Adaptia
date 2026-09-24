@@ -9,6 +9,7 @@ HOST           ?= 127.0.0.1
 PORT           ?= 8000
 DOCKER          = docker
 DOCKER_COMPOSE  = $(DOCKER) compose
+SYS_DEPS        = libpq-dev python3-dev build-essential
 
 .PHONY: install run docker clean
 
@@ -19,6 +20,12 @@ install:
 	fi
 	@echo "Mise à jour de pip..."
 	@$(PIP) install --upgrade pip
+	@if command -v apt-get > /dev/null 2>&1; then \
+		if ! dpkg -l $(SYS_DEPS) > /dev/null 2>&1; then \
+			echo "Installation des dépendances système ($(SYS_DEPS))..."; \
+			sudo apt-get update && sudo apt-get install -y $(SYS_DEPS); \
+		fi \
+	fi
 	@if [ -f "$(REQUIREMENTS)" ]; then \
 		echo "Installation des dépendances depuis $(REQUIREMENTS)..."; \
 		$(PIP) install -r $(REQUIREMENTS); \
