@@ -11,7 +11,7 @@ DOCKER          = docker
 DOCKER_COMPOSE  = $(DOCKER) compose
 SYS_DEPS        = libpq-dev python3-dev build-essential
 
-.PHONY: install run docker clean alembic
+.PHONY: install run docker clean alembic migration_alembic_users_table
 
 install:
 	@if [ ! -d "$(VENV)" ]; then \
@@ -61,3 +61,7 @@ clean:
 
 alembic:
 	@$(VENV_BIN)/alembic init backend/alembic
+
+migration_alembic_users_table:
+	alembic revision --autogenerate -m "create users table"
+	alembic upgrade head
