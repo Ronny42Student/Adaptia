@@ -5,7 +5,7 @@ from jose import jwt, JWTError
 from passlib.context import CryptContext
 from fastapi import Response
 
-from app.core.config import settings
+from backend.app.core.config import settings
 
 pwd_context = CryptContext(
     schemes=["bcrypt"],
