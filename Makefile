@@ -56,6 +56,5 @@ docker:
 	@$(DOCKER_COMPOSE) ps
 
 clean:
-	@echo "Suppression du VENV et des fichiers caches..."
-	@rm -rf $(VENV)
+	@echo "Suppression des fichiers caches..."
 	@find . -type d -name "__pycache__" -exec rm -rf {} +
