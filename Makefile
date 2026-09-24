@@ -63,5 +63,5 @@ alembic:
 	@$(VENV_BIN)/alembic init backend/alembic
 
 migration_alembic_users_table:
-	alembic revision --autogenerate -m "create users table"
-	alembic upgrade head
+	$(VENV_BIN)/alembic revision --autogenerate -m "create users table"
+	$(VENV_BIN)/alembic upgrade head
