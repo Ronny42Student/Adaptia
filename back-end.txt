@@ -1,0 +1,4 @@
+Backend: FastAPI
+ORM: SQLAlchemy + Alembic
+Base de donnée: PostgreSQL
+Cache/Sessions: Redis
