@@ -1,0 +1,54 @@
+PYTHON         ?= python3
+VENV           ?= venv
+VENV_BIN        = $(VENV)/bin
+PIP             = $(VENV_BIN)/pip
+UVICORN         = $(VENV_BIN)/uvicorn
+REQUIREMENTS    = backend/requirements.txt
+APP_MODULE      = app.main:app
+HOST           ?= 127.0.0.1
+PORT           ?= 8000
+DOCKER          = docker
+DOCKER_COMPOSE  = $(DOCKER) compose
+
+.PHONY: install run docker clean
+
+install:
+	@if [ ! -d "$(VENV)" ]; then \
+		echo "Création de l'environnement virtuel avec $(PYTHON)..."; \
+		$(PYTHON) -m venv $(VENV); \
+	fi
+	@echo "Mise à jour de pip..."
+	@$(PIP) install --upgrade pip
+	@if [ -f "$(REQUIREMENTS)" ]; then \
+		echo "Installation des dépendances depuis $(REQUIREMENTS)..."; \
+		$(PIP) install -r $(REQUIREMENTS); \
+	else \
+		echo "Erreur : Le fichier $(REQUIREMENTS) est introuvable."; \
+		exit 1; \
+	fi
+
+run:
+	@if [ ! -f "$(UVICORN)" ]; then \
+		echo "Uvicorn est absent de $(VENV). Tentative d'installation automatique..."; \
+		$(PIP) install uvicorn; \
+	fi
+	@echo "Lancement de l'application sur http://$(HOST):$(PORT)..."
+	@$(UVICORN) $(APP_MODULE) --reload --host $(HOST) --port $(PORT)
+
+docker:
+	@if ! command -v $(DOCKER) > /dev/null 2>&1; then \
+		echo "Erreur : $(DOCKER) n'est pas installé sur ce système."; \
+		exit 1; \
+	fi
+	@if ! $(DOCKER) info > /dev/null 2>&1; then \
+		echo "Erreur : Le service Docker n'est pas démarré ou l'utilisateur courant n'a pas les permissions."; \
+		exit 1; \
+	fi
+	@echo "Lancement des conteneurs avec Docker Compose..."
+	@$(DOCKER_COMPOSE) up -d
+	@$(DOCKER_COMPOSE) ps
+
+clean:
+	@echo "Suppression du VENV et des fichiers caches..."
+	@rm -rf $(VENV)
+	@find . -type d -name "__pycache__" -exec rm -rf {} +
