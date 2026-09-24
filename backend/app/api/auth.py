@@ -10,9 +10,9 @@ from fastapi import (
 
 from sqlalchemy.orm import Session
 
-from app.core.config import settings
+from backend.app.core.config import settings
 
-from app.core.security import (
+from backend.app.core.security import (
     hash_password,
     verify_password,
     create_access_token,
@@ -20,10 +20,10 @@ from app.core.security import (
     clear_auth_cookie,
 )
 
-from app.db.session import get_db
-from app.models.user import User
+from backend.app.db.session import get_db
+from backend.app.models.user import User
 
-from app.schemas.user import (
+from backend.app.schemas.user import (
     UserCreate,
     UserLogin,
     UserOut

@@ -11,7 +11,7 @@ DOCKER          = docker
 DOCKER_COMPOSE  = $(DOCKER) compose
 SYS_DEPS        = libpq-dev python3-dev build-essential
 
-.PHONY: install run docker clean
+.PHONY: install run docker clean alembic
 
 install:
 	@if [ ! -d "$(VENV)" ]; then \
@@ -58,3 +58,6 @@ docker:
 clean:
 	@echo "Suppression des fichiers caches..."
 	@find . -type d -name "__pycache__" -exec rm -rf {} +
+
+alembic:
+	@$(VENV_BIN)/alembic init backend/alembic
