@@ -2,3 +2,17 @@ Backend: FastAPI
 ORM: SQLAlchemy + Alembic
 Base de donnée: PostgreSQL
 Cache/Sessions: Redis
+
+-----------------------
+Docker compose (PostgreSQL, Redis)
+Backend (FastAPI)
+
+- Modèle User + Intégration Alembic
+- Hashage du mot de passe (Argon2 ou Bcrypt)
+- Endpoint 'POST' /auth/register
+- Endpoint 'POST' /auth/login + génération JWT
+- Stockage JWT dans un cookie HttpOnly
+- Middleware de protection des routes
+- reCAPTCHA v3 (après que l'auth marche)
+
+-------------------------
